@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Check if the Caddyfile exists
 if [ ! -f "./data/Caddyfile" ]; then
@@ -7,11 +7,9 @@ if [ ! -f "./data/Caddyfile" ]; then
 fi
 
 # Format the Caddyfile using Caddy (with --overwrite flag to apply changes)
-docker compose exec caddy caddy fmt --overwrite /etc/caddy/Caddyfile
-
-# Check if the command was successful
-if [ $? -eq 0 ]; then
+if docker compose exec caddy caddy fmt --overwrite /etc/caddy/Caddyfile; then
   echo "Caddyfile formatted successfully!"
 else
   echo "Failed to format Caddyfile."
+  exit 1
 fi

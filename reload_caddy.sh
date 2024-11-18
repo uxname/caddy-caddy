@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Check if the Caddyfile exists
 if [ ! -f "./data/Caddyfile" ]; then
@@ -7,11 +7,9 @@ if [ ! -f "./data/Caddyfile" ]; then
 fi
 
 # Reload Caddy
-docker compose exec caddy caddy reload --config /etc/caddy/Caddyfile
-
-# Check if the command was successful
-if [ $? -eq 0 ]; then
+if docker compose exec caddy caddy reload --config /etc/caddy/Caddyfile; then
   echo "Caddy reloaded successfully!"
 else
   echo "Failed to reload Caddy."
+  exit 1
 fi

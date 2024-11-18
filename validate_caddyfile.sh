@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Check if the Caddyfile exists
 if [ ! -f "./data/Caddyfile" ]; then
@@ -7,11 +7,9 @@ if [ ! -f "./data/Caddyfile" ]; then
 fi
 
 # Validate the Caddyfile configuration
-docker compose exec caddy caddy validate --config /etc/caddy/Caddyfile
-
-# Check if the command was successful
-if [ $? -eq 0 ]; then
+if docker compose exec caddy caddy validate --config /etc/caddy/Caddyfile; then
   echo "Caddyfile is valid!"
 else
   echo "Caddyfile is invalid."
+  exit 1
 fi
