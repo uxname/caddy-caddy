@@ -1,4 +1,4 @@
-# Caddy with Docker Compose
+# Caddy + Docker Compose
 
 This project sets up Caddy with Docker Compose and automatic HTTPS via Let's Encrypt.
 
