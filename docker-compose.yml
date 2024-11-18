@@ -1,0 +1,14 @@
+services:
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    network_mode: host
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./data/Caddyfile:/etc/caddy/Caddyfile
+      - ./data/caddy_data:/data
+      - ./data/caddy_config:/config
+    environment:
+      - CADDY_ACCEPT_EULA=true
