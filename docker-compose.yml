@@ -3,6 +3,11 @@ services:
     image: caddy:latest
     restart: unless-stopped
     network_mode: host
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "5"
     ports:
       - "80:80"
       - "443:443"
