@@ -16,4 +16,4 @@ services:
       - ./data/caddy_data:/data
       - ./data/caddy_config:/config
     environment:
-      - CADDY_ACCEPT_EULA=true
+      CADDY_ACCEPT_EULA: "true"
