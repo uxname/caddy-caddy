@@ -1,21 +1,43 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Exit immediately if a command fails, an undefined variable is used, or a pipe fails
+# Strict error handling and safety
 set -euo pipefail
 
-# Define the path to the Caddyfile
-CADDYFILE="./data/Caddyfile"
+# Logging utility function
+log_error() {
+    echo "[ERROR] $*" >&2
+}
 
-# Check if the Caddyfile exists
-if [[ ! -f "$CADDYFILE" ]]; then
-  echo "Error: Caddyfile not found at $CADDYFILE"
-  exit 1
-fi
+log_info() {
+    echo "[INFO] $*"
+}
 
-# Validate the Caddyfile configuration
-if docker compose exec caddy caddy validate --config "/etc/caddy/Caddyfile"; then
-  echo "Caddyfile is valid!"
-else
-  echo "Error: Caddyfile is invalid."
-  exit 1
-fi
+# Configuration constants
+readonly CADDYFILE_PATH="./data/Caddyfile"
+readonly CADDY_CONFIG_PATH="/etc/caddy/Caddyfile"
+
+# Validate Caddyfile existence
+validate_caddyfile_exists() {
+    if [[ ! -f "$CADDYFILE_PATH" ]]; then
+        log_error "Caddyfile not found at ${CADDYFILE_PATH}"
+        exit 1
+    fi
+}
+
+# Validate Caddyfile configuration using Docker Compose
+validate_caddy_configuration() {
+    if ! docker compose exec caddy caddy validate --config "$CADDY_CONFIG_PATH"; then
+        log_error "Invalid Caddyfile configuration"
+        exit 1
+    fi
+    log_info "Caddyfile configuration is valid"
+}
+
+# Main script execution
+main() {
+    validate_caddyfile_exists
+    validate_caddy_configuration
+}
+
+# Run the main script
+main "$@"
