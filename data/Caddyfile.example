@@ -1,3 +1,11 @@
+{
+	debug
+	log default {
+		output stdout
+		format console
+	}
+}
+
 site.com {
 	reverse_proxy localhost:3000
 }
